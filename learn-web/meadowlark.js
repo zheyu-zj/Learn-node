@@ -1,33 +1,30 @@
 const express = require('express');
 const app = express();
-const handlebars = require('express3-handlebars').create({defaultLayout: 'main'});
+const handlebars = require('express-handlebars').create({defaultLayout: 'main'});
+const forTunes = require('./lib/fortune');
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
 app.set('port', process.env.PORT || 3000);
 
 app.get('/', (req, res) => {
-    res.type('text/plain');
-    res.send('Meadowlark Travel');
+    res.render('home');
 });
 app.get('/about', (req, res) => {
-    res.type('text/plain');
-    res.send('About Meadowlark Travel');
+    res.render('about', {fortune: forTunes.getTunes()});
 });
 
 //定制404页面
 app.use((req, res) => {
-    res.type('text/plain');
     res.status(404);
-    res.send('404 - Not Found');
+    res.render('404');
 });
 
 //定制500页面
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.type('text/plain');
     res.status(500);
-    res.send('500 - Server Error');
+    res.render('500');
 });
 
 app.listen(app.get('port'), () => {
