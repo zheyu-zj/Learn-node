@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const handlebars = require('express3-handlebars').create({defaultLayout: 'main'});
+const handlebars = require('express3-handlebars').create({extname: '.hbs', defaultLayout: 'main'});
 const fortune = require('./lib/fortune');
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
